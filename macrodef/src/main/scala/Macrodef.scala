@@ -1,9 +1,9 @@
 package com.github.xuwei_k
 
-// https://groups.google.com/forum/?fromgroups#!topic/scala-user/IKR_4rfbPRs
+// https://groups.google.com/d/msg/scala-user/IKR_4rfbPRs/upd3JuN3Rd4J
 
 import net.liftweb.json._
-import scala.reflect.makro.Context
+import scala.reflect.macros.Context
 import language.experimental.macros
 
 object J {
@@ -25,7 +25,7 @@ object J {
           val xs = arr.map(x => jvalue2tree(x))
           jArray(c)(xs: _*)
         case JNull =>
-          c.reify(JNull).tree
+          reify(JNull).tree
         case JString(s) =>
           jString(c)(s)
         case JDouble(n) =>
@@ -35,7 +35,7 @@ object J {
         case JBool(b) =>
           jBool(c)(b)
         case JNothing =>
-          c.reify(JNothing).tree
+          reify(JNothing).tree
       }
     }
 
@@ -95,12 +95,14 @@ object MacroHelper {
     Apply.apply(fun, bigInt(c)(n) :: Nil)
   }
 
-  def jBool(c: Context)(b: Boolean) =
+  def jBool(c: Context)(b: Boolean) = {
+    import c.universe._
     if (b) {
-      c.reify(JBool(true)).tree
+      reify(JBool(true)).tree
     } else {
-      c.reify(JBool(false)).tree
+      reify(JBool(false)).tree
     }
+  }
 
 }
 

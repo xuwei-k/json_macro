@@ -3,7 +3,7 @@ import sbt._,Keys._
 object build extends Build{
 
   val buildSettings = Defaults.defaultSettings ++ Seq(
-    scalaVersion := "2.10.0-M4",
+    scalaVersion := "2.10.0",
     resolvers ++= Seq(
       "http://xuwei-k.github.com/mvn"
     ).map{u => u at u},
