@@ -2,29 +2,25 @@ import sbt._,Keys._
 
 object build extends Build{
 
-  val buildSettings = Defaults.defaultSettings ++ Seq(
+  val buildSettings = Defaults.defaultSettings ++ seq(
     scalaVersion := "2.10.0",
-    resolvers ++= Seq(
-      "http://xuwei-k.github.com/mvn"
-    ).map{u => u at u},
-    organization := "com.github.xuwei_k",
+    resolvers ++= Seq(Opts.resolver.sonatypeReleases),
+    organization := "com.github.xuwei-k",
     version := "0.1.0-SNAPSHOT",
-    shellPrompt in ThisBuild := { state =>
-      Project.extract(state).currentRef.project + "> "
-    },
     scalacOptions ++= Seq("-deprecation"),
     initialCommands in console := {
       "com.github.xuwei_k".map{"import " + _ + "._"}.mkString("\n")
     },
     libraryDependencies ++= Seq(
-      "net.liftweb" % "lift-json_2.9.1" % "2.4-jfield_no_jvalue"
+      "org.json4s" %% "json4s-native" % "3.1.0"
     )
   )
 
   lazy val root = Project(
     "root",
-    file(".")
-  )aggregate(json_macro,macrodef)
+    file("."),
+    settings = buildSettings
+  ).aggregate(json_macro,macrodef)
 
   lazy val json_macro = Project(
     "json_macro",

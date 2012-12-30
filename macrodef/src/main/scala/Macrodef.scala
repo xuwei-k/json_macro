@@ -2,7 +2,8 @@ package com.github.xuwei_k
 
 // https://groups.google.com/d/msg/scala-user/IKR_4rfbPRs/upd3JuN3Rd4J
 
-import net.liftweb.json._
+import org.json4s.JsonAST._
+import org.json4s.native.JsonParser
 import scala.reflect.macros.Context
 import language.experimental.macros
 
@@ -30,6 +31,8 @@ object J {
           jString(c)(s)
         case JDouble(n) =>
           jDouble(c)(n)
+        case JDecimal(n) =>
+          jDecimal(c)(n)
         case JInt(n) =>
           jInt(c)(n)
         case JBool(b) =>
@@ -40,7 +43,7 @@ object J {
     }
 
     val Literal(Constant(s_jsonSource: String)) = jsonSource.tree
-    val jValue = parse(s_jsonSource)
+    val jValue = JsonParser.parse(s_jsonSource)
 
     c.Expr[JValue](jvalue2tree(jValue))
   }
@@ -81,6 +84,12 @@ object MacroHelper {
     import c.universe._
     val Apply(fun, _) = reify(JDouble(0.0)).tree
     Apply.apply(fun, c.literal(n).tree :: Nil)
+  }
+
+  def jDecimal(c: Context)(n: BigDecimal) = {
+    import c.universe._
+    val Apply(fun, _) = reify(JDecimal(0.0)).tree
+    Apply.apply(fun, c.literal(n.toString).tree :: Nil)
   }
 
   def bigInt(c: Context)(n: BigInt) = {
