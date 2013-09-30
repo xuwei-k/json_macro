@@ -3,7 +3,7 @@ import sbt._,Keys._
 object build extends Build{
 
   val buildSettings = Defaults.defaultSettings ++ seq(
-    scalaVersion := "2.10.0",
+    scalaVersion := "2.10.3",
     resolvers ++= Seq(Opts.resolver.sonatypeReleases),
     organization := "com.github.xuwei-k",
     version := "0.1.0-SNAPSHOT",
@@ -12,7 +12,7 @@ object build extends Build{
       "com.github.xuwei_k".map{"import " + _ + "._"}.mkString("\n")
     },
     libraryDependencies ++= Seq(
-      "org.json4s" %% "json4s-native" % "3.1.0"
+      "org.json4s" %% "json4s-native" % "3.2.5"
     )
   )
 
