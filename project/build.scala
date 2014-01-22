@@ -12,7 +12,7 @@ object build extends Build{
       "com.github.xuwei_k".map{"import " + _ + "._"}.mkString("\n")
     },
     libraryDependencies ++= Seq(
-      "org.json4s" %% "json4s-native" % "3.2.5"
+      "org.json4s" %% "json4s-native" % "3.2.6"
     )
   )
 
